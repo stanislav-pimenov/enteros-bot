@@ -3,7 +3,6 @@ import os
 
 bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 
-
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     message_lower = message.text.lower() 
