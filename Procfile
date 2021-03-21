@@ -1,1 +1,1 @@
-worker: python enteros-bot.py
+worker: python src/enteros-bot.py
