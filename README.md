@@ -1,4 +1,5 @@
-### Enteros Bot
+## Enteros Bot
+### Python Libs Used
 #### Install Telegram API
 
 [Telegram Bot API](https://github.com/eternnoir/pyTelegramBotAPI)
@@ -6,11 +7,14 @@
 pip install pyTelegramBotAPI
 ```
 #### Install NLTK
+
 ```commandline
 pip install nltk
 ```
 
 ### Heroku
+
+#### Run
 ```commandline
 heroku run python enteros-bot.py
 heroku scale worker=1
