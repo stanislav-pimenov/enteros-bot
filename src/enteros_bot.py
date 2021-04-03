@@ -15,6 +15,7 @@ stemmer = SnowballStemmer("russian")
 stop_words = stopwords.words("russian")
 # pymorphy2
 morph = pymorphy2.MorphAnalyzer()
+MORNING_DICT = ['утро', 'утренний', 'утром']
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
@@ -41,12 +42,10 @@ def lemminized_morning(message):
     for sentence in sent_tokenize(message, language="russian"):
         for word in word_tokenize(sentence, language="russian"):
             if word in stop_words:
-                print('Stop word: ' + word)
                 continue
             parsed = morph.parse(word)
             for parse in parsed:
-                print('Normalized word: ' + parse.normal_form)
-                if parse.normal_form == 'утро':
+                if parse.normal_form in MORNING_DICT:
                     return parse
     return None
 

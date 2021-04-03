@@ -7,7 +7,18 @@ def test_should_return_message_on_good_morning():
 
 def test_should_return_parsed_lemmas():
     parse = lemminized_morning('Всех с добром утром и счастливого Нового Года!')
-    print("normalize_form", parse)
+    assert parse is not None
+    response = prepare_response(parse)
+    assert response == 'хуютром!'
+
+def test_should_return_parsed_lemmas_for_adjectives():
+    parse = lemminized_morning('Без утреннего кофе жизнь день по бороде')
+    assert parse is not None
+    response = prepare_response(parse)
+    assert response == 'хуютреннего!'
+
+def test_should_return_parsed_lemmas_for_adverb():
+    parse = lemminized_morning('Вышел рано утром')
     assert parse is not None
     response = prepare_response(parse)
     assert response == 'хуютром!'
