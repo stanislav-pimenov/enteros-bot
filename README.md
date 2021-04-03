@@ -1,15 +1,23 @@
 ## Enteros Bot
 ### Python Libs Used
-#### Install Telegram API
+#### Telegram API
 
 [Telegram Bot API](https://github.com/eternnoir/pyTelegramBotAPI)
 ```commandline
 pip install pyTelegramBotAPI
 ```
-#### Install NLTK
+#### NLTK
 
 ```commandline
 pip install nltk
+```
+
+#### pymorphy2
+
+For russian language lemminization: [pymorphy2](https://pymorphy2.readthedocs.io/en/stable/_modules/pymorphy2/analyzer.html)
+
+```commandline
+pip install pymorphy2
 ```
 
 ### Heroku
