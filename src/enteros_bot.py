@@ -1,5 +1,8 @@
 import telebot
 import os
+import requests
+import schedule
+import time
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem.snowball import SnowballStemmer
 from nltk.corpus import stopwords
@@ -48,5 +51,17 @@ def lemminized_morning(message):
                 if parse.normal_form in MORNING_DICT:
                     return parse
     return None
+
+@bot.message_handler(commands=['boobs'])
+def handle_send_boos(message):
+    r = requests.get('http://lboobs.herokuapp.com/boobs.jpg', allow_redirects=False)
+    location = r.headers['Location']
+    bot.send_message(message.chat.id, location)
+
+
+def spread_boobs():
+    print("I'm working...")
+
+schedule.every().tuesday.at("23:45").do(spread_boobs)
 
 bot.polling(none_stop=True, interval=0)

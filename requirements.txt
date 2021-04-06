@@ -2,3 +2,4 @@ pyTelegramBotAPI==3.7.6
 nltk==3.5
 pytest==6.2.2
 pymorphy2==0.9.1
+schedule==1.0.0
