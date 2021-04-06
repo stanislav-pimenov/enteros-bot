@@ -20,10 +20,16 @@ stop_words = stopwords.words("russian")
 morph = pymorphy2.MorphAnalyzer()
 MORNING_DICT = ['утро', 'утренний', 'утром']
 
+@bot.message_handler(commands=['boobs'])
+def handle_send_boobs(message):
+    r = requests.get('http://lboobs.herokuapp.com/boobs.jpg', allow_redirects=False)
+    location = r.headers['Location']
+    bot.send_message(message.chat.id, location)
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text == '/help':
-        bot.send_message(message.chat.id, 'Напиши что-нибудь про утро')
+        bot.send_message(message.chat.id, 'Напиши что-нибудь про утро или /boobs')
     else :
         parsed = lemminized_morning(message.text.lower())
         if parsed is not None :
@@ -51,17 +57,5 @@ def lemminized_morning(message):
                 if parse.normal_form in MORNING_DICT:
                     return parse
     return None
-
-@bot.message_handler(commands=['boobs'])
-def handle_send_boos(message):
-    r = requests.get('http://lboobs.herokuapp.com/boobs.jpg', allow_redirects=False)
-    location = r.headers['Location']
-    bot.send_message(message.chat.id, location)
-
-
-def spread_boobs():
-    print("I'm working...")
-
-schedule.every().tuesday.at("23:45").do(spread_boobs)
 
 bot.polling(none_stop=True, interval=0)
