@@ -20,16 +20,22 @@ stop_words = stopwords.words("russian")
 morph = pymorphy2.MorphAnalyzer()
 MORNING_DICT = ['утро', 'утренний', 'утром']
 
-@bot.message_handler(commands=['boobs'])
+@bot.message_handler(commands=['boobs','bbs'])
 def handle_send_boobs(message):
     r = requests.get('http://lboobs.herokuapp.com/boobs.jpg', allow_redirects=False)
     location = r.headers['Location']
     bot.send_message(message.chat.id, location)
 
+@bot.message_handler(commands=['joke','jk'])
+def handle_send_joke18plus(message):
+    r = requests.get('http://rzhunemogu.ru/RandJSON.aspx?CType=11', allow_redirects=False)
+    joke = r.text.replace("{\"content\":\"","").replace("\"}","")
+    bot.send_message(message.chat.id, joke)
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text == '/help':
-        bot.send_message(message.chat.id, 'Напиши что-нибудь про утро или /boobs')
+        bot.send_message(message.chat.id, 'Напиши что-нибудь про утро, /boobs, /joke')
     else :
         parsed = lemminized_morning(message.text.lower())
         if parsed is not None :
