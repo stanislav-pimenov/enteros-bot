@@ -80,7 +80,7 @@ def be_like_ivan(message):
 def get_text_messages(message):
     if message.text == '/help':
         bot.send_message(
-            message.chat.id, 'Напиши что-нибудь про утро, /boobs, /rzhu, /norris')
+            message.chat.id, 'Напиши что-нибудь про утро, /boobs, /rzhu, /ivan')
     else:
         parsed = lemminized_morning(message.text.lower())
         if parsed:
