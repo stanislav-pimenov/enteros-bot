@@ -8,7 +8,7 @@ from nltk.stem.snowball import SnowballStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from quotas import quota_exceeded
 
-bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
+bot = telebot.TeleBot('1750317776:AAE_yx2-MhMo2XCFi2bhZDl_hurW3iOLtkU')
 # nltk
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -21,7 +21,7 @@ MORNING_DICT = ['утро', 'утренний', 'утром']
 
 @bot.message_handler(commands=['boobs', 'bbs'])
 def handle_send_boobs(message):
-    msg_text = quota_exceeded(message.from_id)
+    msg_text = quota_exceeded(message.from_user.id)
     if (msg_text):
         bot.send_message(message.chat.id, msg_text)
     else:
