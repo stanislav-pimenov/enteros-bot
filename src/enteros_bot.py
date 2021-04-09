@@ -1,14 +1,12 @@
-import telebot
 import os
-import requests
-import schedule
-import time
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.stem.snowball import SnowballStemmer
-from nltk.corpus import stopwords
 import nltk
 import pymorphy2
-
+import requests
+import telebot
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+from nltk.tokenize import sent_tokenize, word_tokenize
+from quotas import quota_exceeded
 
 bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 # nltk
@@ -23,10 +21,13 @@ MORNING_DICT = ['утро', 'утренний', 'утром']
 
 @bot.message_handler(commands=['boobs', 'bbs'])
 def handle_send_boobs(message):
-    r = requests.get('http://lboobs.herokuapp.com/boobs.jpg',
-                     allow_redirects=False)
-    location = r.headers['Location']
-    bot.send_message(message.chat.id, location)
+    if (msg_text := quota_exceeded(message.from_id)):
+        bot.send_message(message.chat.id, msg_text)
+    else:
+        r = requests.get('http://lboobs.herokuapp.com/boobs.jpg',
+                         allow_redirects=False)
+        location = r.headers['Location']
+        bot.send_message(message.chat.id, location)
 
 
 @bot.message_handler(commands=['rzhu'])
@@ -70,8 +71,7 @@ def be_like_ivan(message):
         chat_id = message.chat.id
         r = requests.get('http://api.icndb.com/jokes/random',
                          allow_redirects=False)
-        bot.send_message(message.chat.id, r.json()[
-                         "value"]["joke"].replace('Chuck Norris', 'Ivan'))
+        bot.send_message(message.chat.id, r.json()["value"]["joke"].replace('Chuck Norris', 'Ivan'))
     except Exception as e:
         bot.reply_to(message, 'блев')
 
