@@ -21,7 +21,8 @@ MORNING_DICT = ['утро', 'утренний', 'утром']
 
 @bot.message_handler(commands=['boobs', 'bbs'])
 def handle_send_boobs(message):
-    if (msg_text := quota_exceeded(message.from_id)):
+    msg_text = quota_exceeded(message.from_id)
+    if (msg_text):
         bot.send_message(message.chat.id, msg_text)
     else:
         r = requests.get('http://lboobs.herokuapp.com/boobs.jpg',
@@ -84,8 +85,7 @@ def get_text_messages(message):
     else:
         parsed = lemminized_morning(message.text.lower())
         if parsed:
-            bot.send_message(message.chat.id, prepare_response(
-                parsed), reply_to_message_id=message.message_id)
+            bot.send_message(message.chat.id, prepare_response(parsed), reply_to_message_id=message.message_id)
 
 
 def is_good_morning_nltk(message):
