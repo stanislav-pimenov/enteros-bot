@@ -70,7 +70,8 @@ def be_like_ivan(message):
         chat_id = message.chat.id
         r = requests.get('http://api.icndb.com/jokes/random',
                          allow_redirects=False)
-        bot.send_message(message.chat.id, r.json()["value"]["joke"].replace('Chuck Norris','Ivan'))
+        bot.send_message(message.chat.id, r.json()[
+                         "value"]["joke"].replace('Chuck Norris', 'Ivan'))
     except Exception as e:
         bot.reply_to(message, 'блев')
 
@@ -82,7 +83,7 @@ def get_text_messages(message):
             message.chat.id, 'Напиши что-нибудь про утро, /boobs, /rzhu, /norris')
     else:
         parsed = lemminized_morning(message.text.lower())
-        if parsed is not None:
+        if parsed:
             bot.send_message(message.chat.id, prepare_response(
                 parsed), reply_to_message_id=message.message_id)
 
