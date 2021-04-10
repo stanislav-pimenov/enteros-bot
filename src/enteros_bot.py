@@ -24,25 +24,21 @@ MORNING_DICT = ['утро', 'утренний', 'утром']
 
 @bot.message_handler(commands=['void'])
 def handle_boobs_choice(message):
-    msg_text = quota_exceeded(message.from_user.id)
-    if (msg_text):
-        bot.send_message(message.chat.id, msg_text)
-    else:
-        markup = types.ReplyKeyboardMarkup()
-        itembtna = types.KeyboardButton('/boobs')
-        itembtnv = types.KeyboardButton('/pussy')
-        itembtnc = types.KeyboardButton('/ass')
-        itembtnd = types.KeyboardButton('/missionary')
-        itembtne = types.KeyboardButton('/cowgirl')
-        itembtnf = types.KeyboardButton('/doggystyle')
-        itembtng = types.KeyboardButton('/blowjob')
-        itembtnh = types.KeyboardButton('/cumshots')
+    markup = types.ReplyKeyboardMarkup()
+    itembtna = types.KeyboardButton('/boobs')
+    itembtnv = types.KeyboardButton('/pussy')
+    itembtnc = types.KeyboardButton('/ass')
+    itembtnd = types.KeyboardButton('/missionary')
+    itembtne = types.KeyboardButton('/cowgirl')
+    itembtnf = types.KeyboardButton('/doggystyle')
+    itembtng = types.KeyboardButton('/blowjob')
+    itembtnh = types.KeyboardButton('/cumshots')
 
-        markup.row(itembtna, itembtnv, itembtnc)
-        markup.row(itembtnd, itembtnf)
-        markup.row(itembtne, itembtng, itembtnh)
-        bot.send_message(message.chat.id, "Choose:", reply_markup=markup)
-        bot.register_next_step_handler(message, handle_send_boobs)
+    markup.row(itembtna, itembtnv, itembtnc)
+    markup.row(itembtnd, itembtnf)
+    markup.row(itembtne, itembtng, itembtnh)
+    bot.send_message(message.chat.id, "Choose:", reply_markup=markup)
+    bot.register_next_step_handler(message, handle_send_boobs)
 
 
 @bot.message_handler(commands=['boobs', 'pussy', 'ass', 'missionary', 'cowgirl', 'doggystyle', 'blowjob', 'cumshots'])
