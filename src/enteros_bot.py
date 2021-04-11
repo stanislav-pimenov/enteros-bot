@@ -1,14 +1,15 @@
-import telebot
 import os
-import requests
-import schedule
-import time
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.stem.snowball import SnowballStemmer
-from nltk.corpus import stopwords
+
 import nltk
 import pymorphy2
+import requests
+import telebot
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+from nltk.tokenize import sent_tokenize, word_tokenize
+from telebot import types
 
+from quotas import quota_exceeded
 
 bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 # nltk
@@ -21,12 +22,35 @@ morph = pymorphy2.MorphAnalyzer()
 MORNING_DICT = ['утро', 'утренний', 'утром']
 
 
-@bot.message_handler(commands=['boobs', 'bbs'])
+@bot.message_handler(commands=['void'])
+def handle_boobs_choice(message):
+    markup = types.ReplyKeyboardMarkup()
+    itembtna = types.KeyboardButton('/boobs')
+    itembtnv = types.KeyboardButton('/pussy')
+    itembtnc = types.KeyboardButton('/ass')
+    itembtnd = types.KeyboardButton('/missionary')
+    itembtne = types.KeyboardButton('/cowgirl')
+    itembtnf = types.KeyboardButton('/doggystyle')
+    itembtng = types.KeyboardButton('/blowjob')
+    itembtnh = types.KeyboardButton('/cumshots')
+
+    markup.row(itembtna, itembtnv, itembtnc)
+    markup.row(itembtnd, itembtnf)
+    markup.row(itembtne, itembtng, itembtnh)
+    bot.send_message(message.chat.id, "Choose:", reply_markup=markup)
+    bot.register_next_step_handler(message, handle_send_boobs)
+
+
+@bot.message_handler(commands=['boobs', 'pussy', 'ass', 'missionary', 'cowgirl', 'doggystyle', 'blowjob', 'cumshots'])
 def handle_send_boobs(message):
-    r = requests.get('http://lboobs.herokuapp.com/boobs.jpg',
-                     allow_redirects=False)
-    location = r.headers['Location']
-    bot.send_message(message.chat.id, location)
+    msg_text = quota_exceeded(message.from_user.id)
+    if (msg_text):
+        bot.send_message(message.chat.id, msg_text)
+    else:
+        r = requests.get('https://love-you.xyz/api/v2' + message.text,
+                         headers={'Accept': 'application/json'})
+        url = r.json()['url']
+        bot.send_message(message.chat.id, url)
 
 
 @bot.message_handler(commands=['rzhu'])
@@ -53,7 +77,6 @@ def send_welcome(message):
 
 def process_rzhu(message):
     try:
-        chat_id = message.chat.id
         id = message.text
         param = {'CType': id, }
         r = requests.get(
@@ -70,8 +93,7 @@ def be_like_ivan(message):
         chat_id = message.chat.id
         r = requests.get('http://api.icndb.com/jokes/random',
                          allow_redirects=False)
-        bot.send_message(message.chat.id, r.json()[
-                         "value"]["joke"].replace('Chuck Norris', 'Ivan'))
+        bot.send_message(message.chat.id, r.json()["value"]["joke"].replace('Chuck Norris', 'Ivan'))
     except Exception as e:
         bot.reply_to(message, 'блев')
 
@@ -80,12 +102,11 @@ def be_like_ivan(message):
 def get_text_messages(message):
     if message.text == '/help':
         bot.send_message(
-            message.chat.id, 'Напиши что-нибудь про утро, /boobs, /rzhu, /ivan')
+            message.chat.id, 'Напиши что-нибудь про утро, /void, /rzhu, /ivan')
     else:
         parsed = lemminized_morning(message.text.lower())
         if parsed:
-            bot.send_message(message.chat.id, prepare_response(
-                parsed), reply_to_message_id=message.message_id)
+            bot.send_message(message.chat.id, prepare_response(parsed), reply_to_message_id=message.message_id)
 
 
 def is_good_morning_nltk(message):
