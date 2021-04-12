@@ -9,6 +9,7 @@ from nltk.stem.snowball import SnowballStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from telebot import types
 import re
+import random
 
 from quotas import quota_exceeded
 
@@ -48,9 +49,11 @@ def handle_send_boobs(message):
     if (msg_text):
         bot.send_message(message.chat.id, msg_text)
     else:
-        r = requests.get('https://love-you.xyz/api/v2' + message.text,
-                         headers={'Accept': 'application/json'})
-        url = r.json()['url']
+        # r = requests.get('https://love-you.xyz/api/v2' + message.text,
+        #                  headers={'Accept': 'application/json'})
+        # url = r.json()['url']
+        boobsNr = random.randint(1, 403)
+        url = 'http://www.porngif.top/gif/prsa/'+ str(boobsNr).zfill(4) +'.gif'
         bot.send_message(message.chat.id, url)
 
 
