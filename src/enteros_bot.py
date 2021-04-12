@@ -8,6 +8,7 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from telebot import types
+import re
 
 from quotas import quota_exceeded
 
@@ -93,7 +94,14 @@ def be_like_ivan(message):
         chat_id = message.chat.id
         r = requests.get('http://api.icndb.com/jokes/random',
                          allow_redirects=False)
-        bot.send_message(message.chat.id, r.json()["value"]["joke"].replace('Chuck Norris', 'Ivan'))
+
+        joke = r.json()["value"]["joke"].replace('&quot;', '\"')
+        entriesToReplace = ['Chuck Norris', 'Norris', 'Chuck']
+        for i in entriesToReplace:
+            src_str = re.compile(i, re.IGNORECASE)
+            joke = src_str.sub('Ivan', joke)
+
+        bot.send_message(message.chat.id, joke)
     except Exception as e:
         bot.reply_to(message, 'блев')
 
@@ -102,11 +110,12 @@ def be_like_ivan(message):
 def get_text_messages(message):
     if message.text == '/help':
         bot.send_message(
-            message.chat.id, 'Напиши что-нибудь про утро, /void, /rzhu, /ivan')
+            message.chat.id, 'Пожелай доброго утра блев или выполни /void, /rzhu, /ivan')
     else:
         parsed = lemminized_morning(message.text.lower())
         if parsed:
-            bot.send_message(message.chat.id, prepare_response(parsed), reply_to_message_id=message.message_id)
+            bot.send_message(message.chat.id, prepare_response(
+                parsed), reply_to_message_id=message.message_id)
 
 
 def is_good_morning_nltk(message):
