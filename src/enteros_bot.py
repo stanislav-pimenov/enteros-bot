@@ -23,26 +23,26 @@ morph = pymorphy2.MorphAnalyzer()
 MORNING_DICT = ['утро', 'утренний', 'утром']
 
 
-@bot.message_handler(commands=['void'])
-def handle_boobs_choice(message):
-    markup = types.ReplyKeyboardMarkup()
-    itembtna = types.KeyboardButton('/boobs')
-    itembtnv = types.KeyboardButton('/pussy')
-    itembtnc = types.KeyboardButton('/ass')
-    itembtnd = types.KeyboardButton('/missionary')
-    itembtne = types.KeyboardButton('/cowgirl')
-    itembtnf = types.KeyboardButton('/doggystyle')
-    itembtng = types.KeyboardButton('/blowjob')
-    itembtnh = types.KeyboardButton('/cumshots')
+# @bot.message_handler(commands=['void'])
+# def handle_boobs_choice(message):
+#     markup = types.ReplyKeyboardMarkup()
+#     itembtna = types.KeyboardButton('/boobs')
+#     itembtnv = types.KeyboardButton('/pussy')
+#     itembtnc = types.KeyboardButton('/ass')
+#     itembtnd = types.KeyboardButton('/missionary')
+#     itembtne = types.KeyboardButton('/cowgirl')
+#     itembtnf = types.KeyboardButton('/doggystyle')
+#     itembtng = types.KeyboardButton('/blowjob')
+#     itembtnh = types.KeyboardButton('/cumshots')
+#
+#     markup.row(itembtna, itembtnv, itembtnc)
+#     markup.row(itembtnd, itembtnf)
+#     markup.row(itembtne, itembtng, itembtnh)
+#     bot.send_message(message.chat.id, "Choose:", reply_markup=markup)
+#     bot.register_next_step_handler(message, handle_send_boobs)
 
-    markup.row(itembtna, itembtnv, itembtnc)
-    markup.row(itembtnd, itembtnf)
-    markup.row(itembtne, itembtng, itembtnh)
-    bot.send_message(message.chat.id, "Choose:", reply_markup=markup)
-    bot.register_next_step_handler(message, handle_send_boobs)
 
-
-@bot.message_handler(commands=['boobs', 'pussy', 'ass', 'missionary', 'cowgirl', 'doggystyle', 'blowjob', 'cumshots'])
+@bot.message_handler(commands=['boobs'])
 def handle_send_boobs(message):
     msg_text = quota_exceeded(message.from_user.id)
     if (msg_text):
@@ -110,7 +110,7 @@ def be_like_ivan(message):
 def get_text_messages(message):
     if message.text == '/help':
         bot.send_message(
-            message.chat.id, 'Пожелай доброго утра блев или выполни /void, /rzhu, /ivan')
+            message.chat.id, 'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan')
     else:
         parsed = lemminized_morning(message.text.lower())
         if parsed:
