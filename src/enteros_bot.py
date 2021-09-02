@@ -53,7 +53,7 @@ def handle_send_boobs(message):
         #                  headers={'Accept': 'application/json'})
         # url = r.json()['url']
         boobsNr = random.randint(1, 403)
-        url = 'http://c.files.bbci.co.uk/104E/production/_94247140_tass_18453746.jpg'
+        url = 'http://www.porngif.top/gif/prsa/'+ str(boobsNr).zfill(4) +'.gif'
         bot.send_message(message.chat.id, url)
 
 
