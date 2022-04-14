@@ -36,4 +36,6 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         envs: BOT_TOKEN
-        script: python3 enteros-bot.py
+        script: |
+          cd ~/enteros-bot/src
+          python3 enteros-bot.py
