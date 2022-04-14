@@ -44,4 +44,5 @@ jobs:
           cd ~/enteros-bot/src
           pwd
           ls -la
+          export BOT_TOKEN=$BOT_TOKEN
           python3 enteros_bot.py
