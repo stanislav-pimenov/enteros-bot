@@ -28,10 +28,12 @@ jobs:
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
+      env:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       with:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        envs: BOT_TOKEN
         script: python enteros-bot.py
