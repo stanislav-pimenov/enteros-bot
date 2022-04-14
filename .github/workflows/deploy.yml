@@ -45,4 +45,4 @@ jobs:
           cd ~/enteros-bot/src
           pwd
           ls -la
-          python3 enteros-bot.py
+          python3 enteros_bot.py
