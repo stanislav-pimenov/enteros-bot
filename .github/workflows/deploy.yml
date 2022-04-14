@@ -38,4 +38,6 @@ jobs:
         envs: BOT_TOKEN
         script: |
           cd ~/enteros-bot/src
+          pwd
+          ls -la
           python3 enteros-bot.py
