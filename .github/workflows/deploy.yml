@@ -45,4 +45,4 @@ jobs:
           pwd
           ls -la
           export BOT_TOKEN=$BOT_TOKEN
-          nohup python3 enteros_bot.py > /dev/null 2>&1
+          nohup python3 enteros_bot.py > /dev/null 2>&1 &
