@@ -4,6 +4,7 @@
 name: Enteros Bot Deployment
 
 on:
+  workflow_dispatch: # Put here!!
   push:
     branches: [ main ]
 
