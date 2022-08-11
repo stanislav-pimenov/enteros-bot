@@ -1,4 +1,4 @@
-pyTelegramBotAPI==3.7.6
+pyTelegramBotAPI==4.6.1
 nltk==3.5
 pytest==6.2.2
 pymorphy2==0.9.1
