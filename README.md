@@ -20,7 +20,9 @@ For russian language lemminization: [pymorphy2](https://pymorphy2.readthedocs.io
 pip install pymorphy2
 ```
 
-### Heroku
+### Heroku 
+
+*not relevant anymore. Github actions are used*
 
 #### Run
 ```commandline
