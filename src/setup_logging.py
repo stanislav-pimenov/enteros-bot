@@ -23,7 +23,7 @@ def init_logger():
     handler = logging.handlers.RotatingFileHandler(
         LOG_FILENAME, maxBytes=10485760, backupCount=5)
 
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    formatter = logging.Formatter(u'%(asctime)s %(levelname)s %(message)s')
     handler.setFormatter(formatter)
     botl.addHandler(handler)
 
