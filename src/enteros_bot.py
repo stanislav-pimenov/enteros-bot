@@ -10,7 +10,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from telebot import types
 import re
 import random
-
+from setup_logging import *
 from quotas import quota_exceeded
 
 bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
@@ -42,9 +42,17 @@ MORNING_DICT = ['утро', 'утренний', 'утром']
 #     bot.send_message(message.chat.id, "Choose:", reply_markup=markup)
 #     bot.register_next_step_handler(message, handle_send_boobs)
 
+def print_user_info(message):
+    # print('from_user.id', message.from_user.id)
+    # print('chat', message.chat)
+    # print('from_user: ', message.from_user)
+    botl.info('chat: %s', message.chat)
+    botl.info('from_user %s:', message.from_user)
+
 
 @bot.message_handler(commands=['boobs'])
 def handle_send_boobs(message):
+    print_user_info(message)
     msg_text = quota_exceeded(message.from_user.id)
     if (msg_text):
         bot.send_message(message.chat.id, msg_text)
@@ -146,5 +154,5 @@ def lemminized_morning(message):
                     return parse
     return None
 
-
+init_logger()
 bot.polling(none_stop=True, interval=0)
