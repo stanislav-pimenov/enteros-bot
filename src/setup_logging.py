@@ -21,7 +21,7 @@ def init_logger():
 
     # Add the log message handler to the logger
     handler = logging.handlers.RotatingFileHandler(
-        LOG_FILENAME, maxBytes=10485760, backupCount=5)
+        LOG_FILENAME, encoding='utf-8', maxBytes=10485760, backupCount=5)
 
     formatter = logging.Formatter(u'%(asctime)s %(levelname)s %(message)s')
     handler.setFormatter(formatter)
