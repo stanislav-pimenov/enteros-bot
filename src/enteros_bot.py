@@ -10,7 +10,6 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from telebot import types
 import re
 import random
-import json
 from setup_logging import *
 from quotas import quota_exceeded
 
@@ -47,8 +46,8 @@ def print_user_info(message):
     # print('from_user.id', message.from_user.id)
     # print('chat', message.chat)
     # print('from_user: ', message.from_user)
-    botl.info('chat: %s', json.dumps(message.chat, ensure_ascii=False).encode('utf8'))
-    botl.info('from_user %s:', json.dumps(message.from_user, ensure_ascii=False).encode('utf8'))
+    botl.info('chat: %s', message.chat)
+    botl.info('from_user %s:', message.from_user)
 
 
 @bot.message_handler(commands=['boobs'])
