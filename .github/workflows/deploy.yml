@@ -46,4 +46,5 @@ jobs:
           pwd
           ls -la
           export BOT_TOKEN=$BOT_TOKEN
+          ps aux | grep 'python3 enteros_bot.py' | awk '{print $2}' | xargs kill -9
           nohup python3 enteros_bot.py > /dev/null 2>&1 &
