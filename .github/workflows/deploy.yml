@@ -49,6 +49,7 @@ jobs:
           BOT_PID=`ps aux | grep '[p]ython3 enteros_bot.py' | awk '{print $2}'`
           if [[ "" !=  "$BOT_PID" ]]; then
             echo "killing $BOT_PID"
+            ps aux | grep $BOT_PID
           fi
           echo "Starting Enteros Bot"
           nohup python3 enteros_bot.py > /dev/null 2>&1 &
