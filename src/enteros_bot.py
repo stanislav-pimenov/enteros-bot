@@ -47,8 +47,8 @@ def print_user_info(message):
     # print('from_user.id', message.from_user.id)
     # print('chat', message.chat)
     # print('from_user: ', message.from_user)
-    botl.info('chat: %s', json.dumps(message.chat, ensure_ascii=False).encode('utf8'))
-    botl.info('from_user %s:', json.dumps(message.from_user, ensure_ascii=False).encode('utf8'))
+    botl.info('chat: %s', json.dumps(message.chat, ensure_ascii=False).encode('utf8').decode())
+    botl.info('from_user %s:', json.dumps(message.from_user, ensure_ascii=False).encode('utf8').decode())
 
 
 @bot.message_handler(commands=['boobs'])
