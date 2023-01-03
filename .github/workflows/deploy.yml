@@ -46,7 +46,7 @@ jobs:
           pwd
           ls -la
           export BOT_TOKEN=$BOT_TOKEN
-          PID=`ps aux | grep 'python3 enteros_bot.py' | awk '{print $2}'`
+          PID=`ps aux | grep '[p]ython3 enteros_bot.py' | awk '{print $2}'`
           if [[ "" !=  "$PID" ]]; then
             echo "killing $PID"
             kill -9 $PID
