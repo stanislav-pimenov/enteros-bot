@@ -45,7 +45,7 @@ async def handle_send_boobs(update, context):
         await context.bot.send_message(chat_id=update.message.chat_id, text=url)
 
 
-menu_dict = {
+MENU_DICT = {
     "Анекдот": 1,
     "Рассказы": 2,
     "Стишки": 3,
@@ -64,11 +64,11 @@ menu_dict = {
 async def send_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Starts the conversation and asks the user about content type."""
     reply_keyboard =  [
-        list(menu_dict.keys())[0:3],
-        list(menu_dict.keys())[3:6],
-        list(menu_dict.keys())[6:9],
-        list(menu_dict.keys())[9:12],
-        list(menu_dict.keys())[12:14]
+        list(MENU_DICT.keys())[0:3],
+        list(MENU_DICT.keys())[3:6],
+        list(MENU_DICT.keys())[6:9],
+        list(MENU_DICT.keys())[9:12],
+        list(MENU_DICT.keys())[12:14]
     ]
     await update.message.reply_text(
         "Выбери контент и возможно тебе будет смешно блев:\nИли /cancel для отмены",
@@ -81,7 +81,7 @@ async def send_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
 async def process_rzhu(update, context) -> int:
     try:
         text = update.message.text
-        id = list(menu_dict.values())[list(menu_dict.keys()).index(text)]
+        id = list(MENU_DICT.values())[list(MENU_DICT.keys()).index(text)]
         param = {'CType': id, }
         r = requests.get(
             'http://rzhunemogu.ru/RandJSON.aspx', params=param, allow_redirects=False)
