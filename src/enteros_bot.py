@@ -1,4 +1,7 @@
 import os
+import random
+import re
+
 import nltk
 import pymorphy2
 import requests
@@ -6,12 +9,11 @@ import wikipedia
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
-import re
-import random
-from setup_logging import *
-from quotas import quota_exceeded
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Application, CommandHandler, ConversationHandler, ContextTypes, MessageHandler, filters
+
+from quotas import quota_exceeded
+from setup_logging import *
 
 bot_token = os.getenv('BOT_TOKEN')
 
@@ -126,11 +128,16 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    stemmed_word = stemmer.stem("пизда")
+    if re.search(stemmed_word, update.message.text.lower()):
+        await context.bot.send_message(chat_id=update.message.chat_id,
+                                       text="Винтовка это праздник, всё летит в пизду!!!",
+                                       reply_to_message_id=update.message.message_id)
+
     parsed = lemminized_morning(update.message.text.lower())
     if parsed:
         await context.bot.send_message(chat_id=update.message.chat_id, text=prepare_response(
             parsed), reply_to_message_id=update.message.message_id)
-
 
 def is_good_morning_nltk(message):
     for sentence in sent_tokenize(message, language="russian"):
