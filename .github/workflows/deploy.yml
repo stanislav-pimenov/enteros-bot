@@ -27,11 +27,23 @@ jobs:
         source: "."
         target: "~/enteros-bot"
 
-    - name: Install dependencies
-      run: |
-        if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
-        
-    - name: Executing remote command
+#    - name: Install dependencies
+#      run: |
+#        if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+    - name: Install dependencies remotely
+      uses: appleboy/ssh-action@master
+      with:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: |
+          cd ~/enteros-bot
+          pwd
+          ls -la
+          if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+
+    - name: Run python main script
       uses: appleboy/ssh-action@master
       env:
         BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
