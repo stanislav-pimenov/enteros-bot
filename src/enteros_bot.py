@@ -1,19 +1,20 @@
 import os
-
 import nltk
 import pymorphy2
 import requests
-import telebot
+import wikipedia
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
-from telebot import types
 import re
 import random
 from setup_logging import *
 from quotas import quota_exceeded
+from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram.ext import Application, CommandHandler, ConversationHandler, ContextTypes, MessageHandler, filters
 
-bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
+bot_token = os.getenv('BOT_TOKEN')
+
 # nltk
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -22,111 +23,113 @@ stop_words = stopwords.words("russian")
 # pymorphy2
 morph = pymorphy2.MorphAnalyzer()
 MORNING_DICT = ['утро', 'утренний', 'утром']
+# conversation states
+QUERY = range(1)
 
 
-# @bot.message_handler(commands=['void'])
-# def handle_boobs_choice(message):
-#     markup = types.ReplyKeyboardMarkup()
-#     itembtna = types.KeyboardButton('/boobs')
-#     itembtnv = types.KeyboardButton('/pussy')
-#     itembtnc = types.KeyboardButton('/ass')
-#     itembtnd = types.KeyboardButton('/missionary')
-#     itembtne = types.KeyboardButton('/cowgirl')
-#     itembtnf = types.KeyboardButton('/doggystyle')
-#     itembtng = types.KeyboardButton('/blowjob')
-#     itembtnh = types.KeyboardButton('/cumshots')
-#
-#     markup.row(itembtna, itembtnv, itembtnc)
-#     markup.row(itembtnd, itembtnf)
-#     markup.row(itembtne, itembtng, itembtnh)
-#     bot.send_message(message.chat.id, "Choose:", reply_markup=markup)
-#     bot.register_next_step_handler(message, handle_send_boobs)
-
-def print_user_info(message):
-    # print('from_user.id', message.from_user.id)
-    # print('chat', message.chat)
-    # print('from_user: ', message.from_user)
-    botl.info('chat: %s', message.chat)
-    botl.info('from_user %s:', message.from_user)
+def print_user_info(update, context):
+    botl.info('chat: %s', update.message.chat)
+    botl.info('from_user %s:', update.message.from_user)
 
 
-@bot.message_handler(commands=['boobs'])
-def handle_send_boobs(message):
-    print_user_info(message)
-    msg_text = quota_exceeded(message.from_user.id)
+async def handle_send_boobs(update, context):
+    print_user_info(update, context)
+    msg_text = quota_exceeded(update.message.from_user.id)
     if (msg_text):
-        bot.send_message(message.chat.id, msg_text)
+        await context.bot.send_message(chat_id=update.message.chat_id, text=msg_text)
     else:
-        # r = requests.get('https://love-you.xyz/api/v2' + message.text,
-        #                  headers={'Accept': 'application/json'})
-        # url = r.json()['url']
         boobsNr = random.randint(1, 403)
-        url = 'http://www.porngif.top/gif/prsa/'+ str(boobsNr).zfill(4) +'.gif'
-        bot.send_message(message.chat.id, url)
+        url = 'http://www.porngif.top/gif/prsa/' + str(boobsNr).zfill(4) + '.gif'
+        await context.bot.send_message(chat_id=update.message.chat_id, text=url)
 
 
-@bot.message_handler(commands=['rzhu'])
-def send_welcome(message):
-    msg = bot.reply_to(message, """\
-        Выбери контент и возможно тебе будет смешно блев:
-1 - Анекдот
-2 - Рассказы
-3 - Стишки
-4 - Афоризмы
-5 - Цитаты
-6 - Тосты
-8 - Статусы
-11 - Анекдот (+18)
-12 - Рассказы (+18)
-13 - Стишки (+18)
-14 - Афоризмы (+18)
-15 - Цитаты (+18)
-16 - Тосты (+18)
-18 - Статусы (+18)
-""")
-    bot.register_next_step_handler(msg, process_rzhu)
+menu_dict = {
+    "Анекдот": 1,
+    "Рассказы": 2,
+    "Стишки": 3,
+    "Афоризмы": 4,
+    "Цитаты": 5,
+    "Тосты": 6,
+    "Статусы": 8,
+    "Анекдот (+18)": 11,
+    "Рассказы (+18)": 12,
+    "Стишки (+18)": 13,
+    "Афоризмы (+18)": 14,
+    "Цитаты (+18)": 15,
+    "Тосты (+18)": 16,
+    "Статусы (+18)": 18
+}
+async def send_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Starts the conversation and asks the user about content type."""
+    reply_keyboard =  [
+        list(menu_dict.keys())[0:3],
+        list(menu_dict.keys())[3:6],
+        list(menu_dict.keys())[6:9],
+        list(menu_dict.keys())[9:12],
+        list(menu_dict.keys())[12:14]
+    ]
+    await update.message.reply_text(
+        "Выбери контент и возможно тебе будет смешно блев:\nИли /cancel для отмены",
+        reply_markup=ReplyKeyboardMarkup(
+            reply_keyboard, one_time_keyboard=True, input_field_placeholder="Контент"
+        ),
+    )
+    return QUERY
 
-
-def process_rzhu(message):
+async def process_rzhu(update, context) -> int:
     try:
-        id = message.text
+        text = update.message.text
+        id = list(menu_dict.values())[list(menu_dict.keys()).index(text)]
         param = {'CType': id, }
         r = requests.get(
             'http://rzhunemogu.ru/RandJSON.aspx', params=param, allow_redirects=False)
-        rzhu = r.text.replace("{\"content\":\"", "").replace("\"}", "")
-        bot.send_message(message.chat.id, rzhu)
+        rzhu = r.text.replace("{\"content\":\"", "").replace("}", "")
+        await context.bot.send_message(chat_id=update.message.chat_id, text=rzhu, reply_markup=ReplyKeyboardRemove())
     except Exception as e:
-        bot.reply_to(message, 'блев')
+        botl.exception("Something wrong when process_rzhu")
+        await context.bot.send_message(chat_id=update.message.chat_id, text='блев', reply_markup=ReplyKeyboardRemove())
+    finally:
+        return ConversationHandler.END
 
 
-@bot.message_handler(commands=['ivan'])
-def be_like_ivan(message):
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Cancels and ends the conversation."""
+    user = update.message.from_user
+    botl.info("User %s canceled the conversation.", user.first_name)
+    await update.message.reply_text(
+        "В пизду!", reply_markup=ReplyKeyboardRemove()
+    )
+
+    return ConversationHandler.END
+
+
+async def be_like_ivan(update, context):
     try:
-        chat_id = message.chat.id
-        r = requests.get('http://api.icndb.com/jokes/random',
-                         allow_redirects=False)
-
+        chat_id = update.message.chat_id
+        r = requests.get('http://api.icndb.com/jokes/random', allow_redirects=False)
         joke = r.json()["value"]["joke"].replace('&quot;', '\"')
         entriesToReplace = ['Chuck Norris', 'Norris', 'Chuck']
         for i in entriesToReplace:
             src_str = re.compile(i, re.IGNORECASE)
             joke = src_str.sub('Ivan', joke)
 
-        bot.send_message(message.chat.id, joke)
+        await context.bot.send_message(chat_id=chat_id, text=joke)
     except Exception as e:
-        bot.reply_to(message, 'блев')
+        botl.exception('something went wrong')
+        await context.bot.send_message(chat_id=chat_id, text='блев')
 
 
-@bot.message_handler(content_types=['text'])
-def get_text_messages(message):
-    if message.text == '/help':
-        bot.send_message(
-            message.chat.id, 'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan')
-    else:
-        parsed = lemminized_morning(message.text.lower())
-        if parsed:
-            bot.send_message(message.chat.id, prepare_response(
-                parsed), reply_to_message_id=message.message_id)
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(
+        update.message.chat_id,
+        'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan или /wiki, если ты кот учёный')
+
+
+async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    parsed = lemminized_morning(update.message.text.lower())
+    if parsed:
+        await bot.send_message(chat_id=update.message.chat_id, text=prepare_response(
+            parsed), reply_to_message_id=update.message.message_id)
 
 
 def is_good_morning_nltk(message):
@@ -154,5 +157,50 @@ def lemminized_morning(message):
                     return parse
     return None
 
-init_logger()
-bot.polling(none_stop=True, interval=0)
+
+async def wiki_search(update, context) -> None:
+    query = " ".join(context.args)
+    botl.info('query: %s', query)
+    try:
+        page = wikipedia.page(query)
+        await update.message.reply_text(page.summary + os.linesep + page.url)
+    except wikipedia.exceptions.DisambiguationError as e:
+        await update.message.reply_text("Sorry, I couldn't find any results for that query. Please be more specific.")
+    except wikipedia.exceptions.PageError:
+        await update.message.reply_text("Sorry, I couldn't find any results for that query.")
+
+
+def main() -> None:
+    """Start the bot."""
+    # Create the Application and pass it your bot's token.
+    application = Application.builder().token(bot_token).build()
+
+    # on different commands - answer in Telegram
+    application.add_handler(CommandHandler('boobs', handle_send_boobs))
+    # application.add_handler(CommandHandler('rzhu', send_welcome))
+    application.add_handler(CommandHandler('wiki', wiki_search))
+    application.add_handler(CommandHandler('ivan', be_like_ivan))
+    application.add_handler(CommandHandler("help", help_command))
+
+    # Add conversation handler with the states GENDER, PHOTO, LOCATION and BIO
+    conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("rzhu", send_welcome)],
+        states={
+            QUERY: [MessageHandler(filters.TEXT & ~filters.COMMAND, process_rzhu)]
+        },
+        fallbacks=[CommandHandler("cancel", cancel)],
+    )
+
+    application.add_handler(conv_handler)
+    # on non command i.e message - echo the message on Telegram
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, get_text_messages))
+
+    # init logging
+    init_logger()
+    wikipedia.set_lang('ru')
+    # Run the bot until the user presses Ctrl-C
+    application.run_polling()
+
+
+if __name__ == "__main__":
+    main()
