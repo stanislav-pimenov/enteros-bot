@@ -52,4 +52,4 @@ jobs:
             kill -9 $BOT_PID
           fi
           echo "Starting Enteros Bot"
-          nohup python3 enteros_bot.py > /dev/null 2>&1 &
+          nohup python3 enteros_bot.py main > /dev/null 2>&1 &
