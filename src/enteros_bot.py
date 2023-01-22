@@ -108,12 +108,15 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def be_like_ivan(update, context):
     try:
         chat_id = update.message.chat_id
-        r = requests.get('http://api.icndb.com/jokes/random', allow_redirects=False)
-        joke = r.json()["value"]["joke"].replace('&quot;', '\"')
-        entriesToReplace = ['Chuck Norris', 'Norris', 'Chuck']
-        for i in entriesToReplace:
-            src_str = re.compile(i, re.IGNORECASE)
-            joke = src_str.sub('Ivan', joke)
+        r = requests.get('https://api.chucknorris.io/jokes/random', allow_redirects=False)
+        if (r.status_code == 200):
+         joke = r.json()['value'].replace('&quot;', '\"')
+         entriesToReplace = ['Chuck Norris', 'Norris', 'Chuck']
+          for i in entriesToReplace:
+           src_str = re.compile(i, re.IGNORECASE)
+           joke = src_str.sub('Ivan', joke)
+        else:
+         joke = str(r.status_code) + " - что-то не то с Иваном.."
 
         await context.bot.send_message(chat_id=chat_id, text=joke)
     except Exception as e:
