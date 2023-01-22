@@ -170,7 +170,7 @@ async def wiki_search(update, context) -> None:
     botl.info('query: %s', query)
     try:
         page = wikipedia.page(query)
-        await update.message.reply_text(page.summary + os.linesep + page.url)
+        await update.message.reply_text(page.summary + os.linesep + page.url, disable_web_page_preview=True)
     except wikipedia.exceptions.DisambiguationError as e:
         await update.message.reply_text("Sorry, I couldn't find any results for that query. Please be more specific.")
     except wikipedia.exceptions.PageError:
