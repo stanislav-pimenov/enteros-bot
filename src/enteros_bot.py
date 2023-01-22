@@ -170,7 +170,8 @@ async def wiki_search(update, context) -> None:
     botl.info('query: %s', query)
     try:
         page = wikipedia.page(query)
-        await update.message.reply_text(page.summary + os.linesep + page.url, disable_web_page_preview=True)
+        summary = wikipedia.summary(query, sentences=1)
+        await update.message.reply_text(summary + os.linesep + page.url, disable_web_page_preview=True)
     except wikipedia.exceptions.DisambiguationError as e:
         await update.message.reply_text("Sorry, I couldn't find any results for that query. Please be more specific.")
     except wikipedia.exceptions.PageError:
@@ -184,8 +185,8 @@ def main() -> None:
 
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler('boobs', handle_send_boobs))
-    # application.add_handler(CommandHandler('rzhu', send_welcome))
     application.add_handler(CommandHandler('wiki', wiki_search))
+    application.add_handler(CommandHandler('вики', wiki_search))
     application.add_handler(CommandHandler('ivan', be_like_ivan))
     application.add_handler(CommandHandler("help", help_command))
 
