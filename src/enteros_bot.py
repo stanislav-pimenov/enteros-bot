@@ -128,7 +128,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     parsed = lemminized_morning(update.message.text.lower())
     if parsed:
-        await bot.send_message(chat_id=update.message.chat_id, text=prepare_response(
+        await context.bot.send_message(chat_id=update.message.chat_id, text=prepare_response(
             parsed), reply_to_message_id=update.message.message_id)
 
 
