@@ -1,37 +1,18 @@
 ## Enteros Bot
 ### Python Libs Used
-#### Telegram API
-
-[Telegram Bot API](https://github.com/eternnoir/pyTelegramBotAPI)
-```commandline
-pip install pyTelegramBotAPI
-```
-#### NLTK
 
 ```commandline
-pip install nltk
-```
+python-telegram-bot==20.0
+nltk==3.5
+pytest==6.2.2
+pymorphy2==0.9.1
+schedule==1.0.0
+wikipedia==1.4.0
 
-#### pymorphy2
+```
 
 For russian language lemminization: [pymorphy2](https://pymorphy2.readthedocs.io/en/stable/_modules/pymorphy2/analyzer.html)
 
-```commandline
-pip install pymorphy2
-```
+CI/CD 
 
-### Heroku 
-
-*not relevant anymore. Github actions are used*
-
-#### Run
-```commandline
-heroku run python enteros-bot.py
-heroku scale worker=1
-```
-
-#### Stop
-```commandline
-heroku ps
-heroku ps:stop run.9670
-```
+Github actions is used
