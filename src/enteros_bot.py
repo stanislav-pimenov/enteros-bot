@@ -136,7 +136,7 @@ def request_chuck_joke():
             src_str = re.compile(i, re.IGNORECASE)
             joke = src_str.sub('Ivan', joke)
     else:
-          joke = str(r.status_code) + " - что-то не так с Иваном.."
+        joke = str(r.status_code) + " - что-то не так с Иваном.."
     return joke                 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
