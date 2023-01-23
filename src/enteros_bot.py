@@ -6,6 +6,8 @@ import nltk
 import pymorphy2
 import requests
 import wikipedia
+import translators.server as tss
+
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
@@ -61,6 +63,7 @@ MENU_DICT = {
     "Тосты (+18)": 16,
     "Статусы (+18)": 18
 }
+
 async def send_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Starts the conversation and asks the user about content type."""
     reply_keyboard =  [
@@ -108,25 +111,38 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def be_like_ivan(update, context):
     try:
         chat_id = update.message.chat_id
-        r = requests.get('https://api.chucknorris.io/jokes/random', allow_redirects=False)
-        if (r.status_code == 200):
-          joke = r.json()['value'].replace('&quot;', '\"')
-          entriesToReplace = ['Chuck Norris', 'Norris', 'Chuck']
-          for i in entriesToReplace:
-            src_str = re.compile(i, re.IGNORECASE)
-            joke = src_str.sub('Ivan', joke)
-        else:
-          joke = str(r.status_code) + " - что-то не то с Иваном.."
+        r = request_chuck_joke()
         await context.bot.send_message(chat_id=chat_id, text=joke)
     except Exception as e:
-        botl.exception('something wring with Ivan..')
-        await context.bot.send_message(chat_id=chat_id, text='блев')
+        botl.exception('something wrong with Ivan..')
+        await context.bot.send_message(chat_id=chat_id, text='что-то не так с Иваном')
 
+async def be_like_ivan_ru(update, context):
+    try:
+        chat_id = update.message.chat_id
+        joke = request_chuck_joke()
+        joke = tss.google(joke, 'en', 'ru')  
+        await context.bot.send_message(chat_id=chat_id, text=joke)
+    except Exception as e:
+        botl.exception('something wrong with Ivan..')
+        await context.bot.send_message(chat_id=chat_id, text='что-то не так с Иваном')
+
+def request_chuck_joke():
+    r = requests.get('https://api.chucknorris.io/jokes/random', allow_redirects=False)
+    if (r.status_code == 200):
+        joke = r.json()['value'].replace('&quot;', '\"')
+        entriesToReplace = ['Chuck Norris', 'Norris', 'Chuck']
+        for i in entriesToReplace:
+            src_str = re.compile(i, re.IGNORECASE)
+            joke = src_str.sub('Ivan', joke)
+    else:
+          joke = str(r.status_code) + " - что-то не так с Иваном.."
+    return joke                 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         update.message.chat_id,
-        'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan или /wiki, если ты кот учёный')
+        'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan, ivanru или /wiki, если ты кот учёный')
 
 
 async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -189,6 +205,7 @@ def main() -> None:
     application.add_handler(CommandHandler('boobs', handle_send_boobs))
     application.add_handler(CommandHandler('wiki', wiki_search))
     application.add_handler(CommandHandler('ivan', be_like_ivan))
+    application.add_handler(CommandHandler('ivanru', be_like_ivan_ru))
     application.add_handler(CommandHandler("help", help_command))
 
     # Add conversation handler with the states GENDER, PHOTO, LOCATION and BIO
