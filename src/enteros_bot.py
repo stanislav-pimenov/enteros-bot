@@ -142,7 +142,7 @@ def request_chuck_joke():
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         update.message.chat_id,
-        'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan, ivanru или /wiki, если ты кот учёный')
+        'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan, /ivanru или /wiki, если ты кот учёный')
 
 
 async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
