@@ -30,6 +30,7 @@ MORNING_DICT = ['утро', 'утренний', 'утром']
 # conversation states
 QUERY = range(1)
 
+CHUCKS = ['Anton', 'Sasha', 'Stan', 'Ded', 'Ivan', 'Ramil', 'Pasha', 'Grisha', 'Roma', 'Red Master', 'Lesha', 'Vladimir', 'Eugene', 'The Geka', 'Yura', 'Nikita']
 
 def print_user_info(update, context):
     botl.info('chat: %s', update.message.chat)
@@ -132,9 +133,10 @@ def request_chuck_joke():
     if (r.status_code == 200):
         joke = r.json()['value'].replace('&quot;', '\"')
         entriesToReplace = ['Chuck Norris', 'Norris', 'Chuck']
+        name = random.choice(CHUCKS)
         for i in entriesToReplace:
             src_str = re.compile(i, re.IGNORECASE)
-            joke = src_str.sub('Ivan', joke)
+            joke = src_str.sub(name, joke)
     else:
         joke = str(r.status_code) + " - что-то не так с Иваном.."
     return joke                 
