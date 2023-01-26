@@ -112,7 +112,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def be_like_ivan(update, context):
     try:
         chat_id = update.message.chat_id
-        r = request_chuck_joke()
+        joke = request_chuck_joke()
         await context.bot.send_message(chat_id=chat_id, text=joke)
     except Exception as e:
         botl.exception('something wrong with Ivan..')
