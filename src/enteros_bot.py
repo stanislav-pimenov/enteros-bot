@@ -47,7 +47,7 @@ async def handle_send_boobs(update, context):
         boobsNr = random.randint(1, 403)
         url = 'http://www.porngif.top/gif/prsa/' + str(boobsNr).zfill(4) + '.gif'
         await context.bot.send_animation(chat_id=update.message.chat_id, animation=url, protect_content=True,
-                                         parse_mode='HTML')
+                                         parse_mode='HTML', has_spoiler=True)
 
 
 MENU_DICT = {
