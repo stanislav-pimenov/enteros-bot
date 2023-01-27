@@ -1,6 +1,6 @@
 python-telegram-bot==20.0
 nltk==3.5
-pytest==6.2.2
+pytest==7.2.1
 pymorphy2==0.9.1
 schedule==1.0.0
 wikipedia==1.4.0
