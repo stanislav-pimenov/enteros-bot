@@ -30,7 +30,8 @@ MORNING_DICT = ['утро', 'утренний', 'утром']
 # conversation states
 QUERY = range(1)
 
-CHUCKS = ['Anton', 'Sasha', 'Stan', 'Ded', 'Ivan', 'Ramil', 'Pasha', 'Grisha', 'Roma', 'Red Master', 'Lesha', 'Vladimir', 'Eugene', 'The Geka', 'Yura', 'Nikita']
+CHUCKS = ['Anton', 'Sasha', 'Stan', 'Ded', 'Ivan', 'Ramil', 'Pasha', 'Grisha', 'Roma', 'Red Master', 'Lesha',
+          'Vladimir', 'Eugene', 'The Geka', 'Yura', 'Nikita']
 
 def print_user_info(update, context):
     botl.info('chat: %s', update.message.chat)
@@ -45,11 +46,8 @@ async def handle_send_boobs(update, context):
     else:
         boobsNr = random.randint(1, 403)
         url = 'http://www.porngif.top/gif/prsa/' + str(boobsNr).zfill(4) + '.gif'
-        reply_message = (
-            f'<span class="tg-spoiler"><img src="{url}" alt="Broken boobs"></span>.'
-        )
-        await context.bot.send_message(chat_id=update.message.chat_id, text=reply_message, protect_content=True,
-                                       parse_mode='HTML')
+        await context.bot.send_animation(chat_id=update.message.chat_id, animation=url, protect_content=True,
+                                         parse_mode='HTML')
 
 
 MENU_DICT = {
