@@ -37,7 +37,6 @@ def print_user_info(update, context):
     botl.info('chat: %s', update.message.chat)
     botl.info('from_user %s:', update.message.from_user)
 
-
 async def handle_send_boobs(update, context):
     print_user_info(update, context)
     msg_text = quota_exceeded(update.message.from_user.id)
@@ -48,7 +47,6 @@ async def handle_send_boobs(update, context):
         url = 'http://www.porngif.top/gif/prsa/' + str(boobsNr).zfill(4) + '.gif'
         await context.bot.send_animation(chat_id=update.message.chat_id, animation=url, protect_content=True,
                                          parse_mode='HTML', has_spoiler=True)
-
 
 MENU_DICT = {
     "Анекдот": 1,
@@ -107,7 +105,6 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text(
         "В пизду!", reply_markup=ReplyKeyboardRemove()
     )
-
     return ConversationHandler.END
 
 
@@ -148,18 +145,19 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         update.message.chat_id,
         'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan, /ivanru или /wiki, если ты кот учёный')
 
-
+stemmed_word = stemmer.stem("пизда")
 async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    stemmed_word = stemmer.stem("пизда")
-    if re.search(stemmed_word, update.message.text.lower()):
-        await context.bot.send_message(chat_id=update.message.chat_id,
-                                       text="Винтовка это праздник, всё летит в пизду!!!",
-                                       reply_to_message_id=update.message.message_id)
+    if update.message is not None:
+        if re.search(stemmed_word, update.message.text.lower()):
+            await context.bot.send_message(chat_id=update.message.chat_id,
+                                           text="Винтовка это праздник, всё летит в пизду!!!",
+                                           reply_to_message_id=update.message.message_id)
 
-    parsed = lemminized_morning(update.message.text.lower())
-    if parsed:
-        await context.bot.send_message(chat_id=update.message.chat_id, text=prepare_response(
-            parsed), reply_to_message_id=update.message.message_id)
+        parsed = lemminized_morning(update.message.text.lower())
+        if parsed:
+            await context.bot.send_message(chat_id=update.message.chat_id,
+                                           text=prepare_response(parsed),
+                                           reply_to_message_id=update.message.message_id)
 
 def is_good_morning_nltk(message):
     for sentence in sent_tokenize(message, language="russian"):
