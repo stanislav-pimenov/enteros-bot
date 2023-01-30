@@ -148,10 +148,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 stemmed_word = stemmer.stem("пизда")
 async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message is not None:
-        if re.search(stemmed_word, update.message.text.lower()):
-            await context.bot.send_message(chat_id=update.message.chat_id,
-                                           text="Винтовка это праздник, всё летит в пизду!!!",
-                                           reply_to_message_id=update.message.message_id)
+        # if re.search(stemmed_word, update.message.text.lower()):
+        #     await context.bot.send_message(chat_id=update.message.chat_id,
+        #                                    text="Винтовка это праздник, всё летит в пизду!!!",
+        #                                    reply_to_message_id=update.message.message_id)
 
         parsed = lemminized_morning(update.message.text.lower())
         if parsed:
