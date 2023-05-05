@@ -50,8 +50,9 @@ jobs:
 
     - name: Run python main script
       uses: appleboy/ssh-action@master
+      env:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}              
       with:
-        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}      
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
