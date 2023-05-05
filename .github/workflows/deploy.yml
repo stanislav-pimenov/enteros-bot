@@ -24,12 +24,11 @@ jobs:
 
     - name: Copy repository contents via scp
       uses: appleboy/scp-action@master
-      env:
+      with:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-      with:
+        KEY: ${{ secrets.SSHKEY }}      
         source: "."
         target: "~/enteros-bot"
 
@@ -51,9 +50,8 @@ jobs:
 
     - name: Run python main script
       uses: appleboy/ssh-action@master
-      env:
-        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
       with:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}      
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
