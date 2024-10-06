@@ -22,6 +22,8 @@ bot_token = os.getenv('BOT_TOKEN')
 # nltk
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('punkt_tab')
+
 stemmer = SnowballStemmer("russian")
 stop_words = stopwords.words("russian")
 # pymorphy2
