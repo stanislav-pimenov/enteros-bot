@@ -59,7 +59,7 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         envs: BOT_TOKEN
         script: |
-          cd ~/enteros-bot/src
+          cd ~/enteros-bot
           pwd
           ls -la
           export BOT_TOKEN=$BOT_TOKEN
@@ -69,4 +69,4 @@ jobs:
             kill -9 $BOT_PID
           fi
           echo "Starting Enteros Bot"
-          nohup python3 enteros_bot.py main > /dev/null 2>&1 &
+          nohup python3 src/enteros_bot.py main > /dev/null 2>&1 &
