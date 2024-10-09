@@ -70,7 +70,10 @@ JHB;Hino incomplete vehicle
 JHD;Hino
 JHF;Hino
 JHH;Hino incomplete vehicle
-JHF-JHG, JHL-JHN, JHZ,<br/>JH1-JH5;[[../Honda/VIN Codes|Honda]]
+JHF-JHG;[[../Honda/VIN Codes|Honda]]
+JHL-JHN;[[../Honda/VIN Codes|Honda]]
+JHZ;[[../Honda/VIN Codes|Honda]]
+JH1-JH5;[[../Honda/VIN Codes|Honda]]
 JHL;[[../Honda/VIN Codes|Honda]] MPV/SUV
 JHM;[[../Honda/VIN Codes|Honda]] car
 JH1;[[../Honda/VIN Codes|Honda]] truck
