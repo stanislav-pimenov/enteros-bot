@@ -9,25 +9,28 @@ import csv
 def read_csv_dic(csv_name):
     with open(csv_name, mode='r', encoding="utf8") as infile:
         reader = csv.DictReader(infile, delimiter=';')
-        #return [row for row in reader]
-        #return list(reader)
+        # return [row for row in reader]
+        # return list(reader)
         dict = {}
         for row in reader:
-          dict[row['code']] = row['name']
+            dict[row['code']] = row['name']
         return dict
+
 
 def decode_vin(vin_str):
     vin_dict = {}
     vin_dict['manufacturing_continent_code'] = vin_str[:1]
     vin_dict['manufacturing_country_code'] = vin_str[:2]
     vin_dict['manufacturer_code'] = vin_str[:3]
-    #print(f'vin: {vin_dict}')
+    # print(f'vin: {vin_dict}')
     vin_decoded_dict = {}
-    vin_decoded_dict['country'] = find_value_by_key(vin_dict['manufacturing_country_code'],manufacturer_country_code_dict)
-    vin_decoded_dict['continent'] = find_value_by_key(vin_dict['manufacturing_continent_code'],manufacturer_continent_code_dict)
-    vin_decoded_dict['manufacturer'] = find_value_by_key(vin_dict['manufacturer_code'],manufacturer_code_dict)
+    vin_decoded_dict['country'] = find_value_by_key(vin_dict['manufacturing_country_code'],
+                                                    manufacturer_country_code_dict)
+    vin_decoded_dict['continent'] = find_value_by_key(vin_dict['manufacturing_continent_code'],
+                                                      manufacturer_continent_code_dict)
+    vin_decoded_dict['manufacturer'] = find_value_by_key(vin_dict['manufacturer_code'], manufacturer_code_dict)
     return vin_decoded_dict
-    #print(f'vin decoded: {vin_decoded_dict}')
+    # print(f'vin decoded: {vin_decoded_dict}')
 
 
 def is_in_range(key, range_key):
@@ -40,6 +43,8 @@ def is_in_range(key, range_key):
 def match_the_first_part(key, range_key):
     start = range_key.split('/')
     return start == key
+
+
 def find_value_by_key(key, dictionary):
     # Check if exact match exists
     if key in dictionary:
@@ -69,4 +74,3 @@ manufacturer_country_code_dict = read_csv_dic('csv/manufacturing_country_code.cs
 #     print(f'manufacturer_code_dict: {manufacturer_code_dict}')
 #     print(f'manufacturer_continent_code_dict: {manufacturer_continent_code_dict}')
 #     print(f'manufacturer_country_code_dict: {manufacturer_country_code_dict}')
-
