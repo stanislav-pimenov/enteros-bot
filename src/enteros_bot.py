@@ -163,6 +163,7 @@ async def replace_instagram_links(update, context):
     message = update.message.text
     # Find all Instagram links in the message
     instagram_links = re.findall(pattern, message)
+    botl.info('Found instagram links: %s', instagram_links)
     # Replace instagram.com with ddinstagram.com in each link
     if instagram_links:
         for link in instagram_links:
