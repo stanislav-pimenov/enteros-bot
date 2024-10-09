@@ -170,7 +170,9 @@ async def replace_instagram_links(update, context):
             modified_link = re.sub(r"instagram\.com", "ddinstagram.com", link)
             # Send the modified link back to the chat
             await update.message.reply_text(modified_link)
-
+        return True
+    else:
+        return False
 
 stemmed_word = stemmer.stem("пизда")
 
@@ -181,8 +183,9 @@ async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
         #     await context.bot.send_message(chat_id=update.message.chat_id,
         #                                    text="Винтовка это праздник, всё летит в пизду!!!",
         #                                    reply_to_message_id=update.message.message_id)
-        await replace_instagram_links(update, context)
-        await reply_to_morning(update, context)
+        found_links = await replace_instagram_links(update, context)
+        if not found_links:
+            await reply_to_morning(update, context)
 
 async def reply_to_morning(update, context):
     parsed = lemminized_morning(update.message.text.lower())
