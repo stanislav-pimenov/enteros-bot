@@ -167,7 +167,7 @@ async def replace_instagram_links(update, context):
     # Replace instagram.com with ddinstagram.com in each link
     if instagram_links:
         for link in instagram_links:
-            modified_link = link.sub(r"instagram\.com", "ddinstagram.com", link)
+            modified_link = re.sub(r"instagram\.com", "ddinstagram.com", link)
             # Send the modified link back to the chat
             await update.message.reply_text(modified_link)
 
