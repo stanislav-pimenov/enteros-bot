@@ -158,7 +158,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def replace_instagram_links(update, context):
     # Regex pattern to match Instagram links
-    pattern = r"https?://(www\.)?instagram\.com[^\s]*"
+    pattern = r"https?://(?:www\.)?instagram\.com[^\s]+"
     # Get the message text
     message = update.message.text
     # Find all Instagram links in the message
