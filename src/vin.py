@@ -26,6 +26,7 @@ def decode_vin(vin_str):
     vin_decoded_dict['country'] = find_value_by_key(vin_dict['manufacturing_country_code'],manufacturer_country_code_dict)
     vin_decoded_dict['continent'] = find_value_by_key(vin_dict['manufacturing_continent_code'],manufacturer_continent_code_dict)
     vin_decoded_dict['manufacturer'] = find_value_by_key(vin_dict['manufacturer_code'],manufacturer_code_dict)
+    return vin_decoded_dict
     #print(f'vin decoded: {vin_decoded_dict}')
 
 
