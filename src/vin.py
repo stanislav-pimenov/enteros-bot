@@ -29,6 +29,8 @@ def decode_vin(vin_str):
     vin_decoded_dict['continent'] = find_value_by_key(vin_dict['manufacturing_continent_code'],
                                                       manufacturer_continent_code_dict)
     vin_decoded_dict['manufacturer'] = find_value_by_key(vin_dict['manufacturer_code'], manufacturer_code_dict)
+    vin_decoded_dict['body_style'] = body_styles.get(vin_str[3], 'Unknown')
+    vin_decoded_dict['engine_type'] = engine_types.get(vin_str[4], 'Unknown')
     return vin_decoded_dict
     # print(f'vin decoded: {vin_decoded_dict}')
 
@@ -65,6 +67,22 @@ def find_value_by_key(key, dictionary):
 manufacturer_code_dict = read_csv_dic('csv/manufacturer_code.csv')
 manufacturer_continent_code_dict = read_csv_dic('csv/manufacturing_continent_code.csv')
 manufacturer_country_code_dict = read_csv_dic('csv/manufacturing_country_code.csv')
+
+# Example mappings (these would need to be extended based on manufacturer data)
+body_styles = {
+    'S': 'Sedan',
+    'C': 'Coupe',
+    'H': 'Hatchback',
+    'T': 'Truck',
+    'U': 'SUV'
+}
+
+engine_types = {
+    'A': 'Gasoline',
+    'D': 'Diesel',
+    'E': 'Electric',
+    'H': 'Hybrid'
+}
 
 # if __name__ == '__main__':
 #     manufacturer_code_dict = read_csv_dic('manufacturer_code.csv')
