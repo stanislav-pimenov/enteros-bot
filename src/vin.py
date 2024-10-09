@@ -56,9 +56,9 @@ def find_value_by_key(key, dictionary):
     return None  # If no match is found
 
 
-manufacturer_code_dict = read_csv_dic('manufacturer_code.csv')
-manufacturer_continent_code_dict = read_csv_dic('manufacturing_continent_code.csv')
-manufacturer_country_code_dict = read_csv_dic('manufacturing_country_code.csv')
+manufacturer_code_dict = read_csv_dic('../csv/manufacturer_code.csv')
+manufacturer_continent_code_dict = read_csv_dic('../csv/manufacturing_continent_code.csv')
+manufacturer_country_code_dict = read_csv_dic('../csv/manufacturing_country_code.csv')
 
 # if __name__ == '__main__':
 #     manufacturer_code_dict = read_csv_dic('manufacturer_code.csv')
