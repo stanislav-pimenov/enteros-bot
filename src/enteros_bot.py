@@ -266,7 +266,7 @@ def main() -> None:
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
 
-def error(update, context):
+async def error(update, context):
     botl.warning('Update "%s" caused error "%s"', update, context.error)
 
 
