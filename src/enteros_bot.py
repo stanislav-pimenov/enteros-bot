@@ -15,6 +15,7 @@ from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Application, CommandHandler, ConversationHandler, ContextTypes, MessageHandler, filters
 
 from quotas import quota_exceeded
+from vin import decode_vin
 from setup_logging import *
 
 bot_token = os.getenv('BOT_TOKEN')
@@ -49,6 +50,14 @@ async def handle_send_boobs(update, context):
         url = 'http://www.porngif.top/gif/prsa/' + str(boobsNr).zfill(4) + '.gif'
         await context.bot.send_animation(chat_id=update.message.chat_id, animation=url, protect_content=True,
                                          parse_mode='HTML', has_spoiler=True)
+
+
+async def handle_decode_vin(update, context):
+    print_user_info(update, context)
+    decodeded_vin = decode_vin(context.args[0])
+    await context.bot.send_message(chat_id=update.message.chat_id, text=decodeded_vin,
+                                   reply_to_message_id=update.message.message_id)
+
 
 MENU_DICT = {
     "Анекдот": 1,
@@ -210,6 +219,7 @@ def main() -> None:
     application.add_handler(CommandHandler('wiki', wiki_search))
     application.add_handler(CommandHandler('ivan', be_like_ivan))
     application.add_handler(CommandHandler('ivanru', be_like_ivan_ru))
+    application.add_handler(CommandHandler('vin', handle_decode_vin))
     application.add_handler(CommandHandler("help", help_command))
 
     # Add conversation handler with the states GENDER, PHOTO, LOCATION and BIO
