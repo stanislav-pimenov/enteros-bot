@@ -54,8 +54,8 @@ async def handle_send_boobs(update, context):
 
 async def handle_decode_vin(update, context):
     print_user_info(update, context)
-    decodeded_vin = decode_vin(context.args[0])
-    await context.bot.send_message(chat_id=update.message.chat_id, text=decodeded_vin,
+    decoded_vin = decode_vin(context.args[0])
+    await context.bot.send_message(chat_id=update.message.chat_id, text=decoded_vin,
                                    reply_to_message_id=update.message.message_id)
 
 
@@ -154,21 +154,41 @@ def request_chuck_joke():
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(
         update.message.chat_id,
-        'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan, /ivanru или /wiki, если ты кот учёный')
+        'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan, /ivanru или /wiki, если ты кот учёный. Расшифруй VIN код своей тачки с помощью команды /vin <номер>')
+
+async def replace_instagram_links(update, context):
+    # Regex pattern to match Instagram links
+    pattern = r"https?://(www\.)?instagram\.com[^\s]*"
+    # Get the message text
+    message = update.message.text
+    # Find all Instagram links in the message
+    instagram_links = re.findall(pattern, message)
+    # Replace instagram.com with ddinstagram.com in each link
+    if instagram_links:
+        for link in instagram_links:
+            modified_link = re.sub(r"instagram\.com", "ddinstagram.com", link)
+            # Send the modified link back to the chat
+            await update.message.reply_text(modified_link)
+
 
 stemmed_word = stemmer.stem("пизда")
+
+# handles text messages. reply to morning and replaces instagram links
 async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message is not None:
         # if re.search(stemmed_word, update.message.text.lower()):
         #     await context.bot.send_message(chat_id=update.message.chat_id,
         #                                    text="Винтовка это праздник, всё летит в пизду!!!",
         #                                    reply_to_message_id=update.message.message_id)
+        await replace_instagram_links(update, context)
+        await reply_to_morning(update, context)
 
-        parsed = lemminized_morning(update.message.text.lower())
-        if parsed:
-            await context.bot.send_message(chat_id=update.message.chat_id,
-                                           text=prepare_response(parsed),
-                                           reply_to_message_id=update.message.message_id)
+async def reply_to_morning(update, context):
+    parsed = lemminized_morning(update.message.text.lower())
+    if parsed:
+        await context.bot.send_message(chat_id=update.message.chat_id,
+                                       text=prepare_response(parsed),
+                                       reply_to_message_id=update.message.message_id)
 
 def is_good_morning_nltk(message):
     for sentence in sent_tokenize(message, language="russian"):
@@ -234,12 +254,16 @@ def main() -> None:
     application.add_handler(conv_handler)
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, get_text_messages))
+    application.add_error_handler(error)
 
     # init logging
     init_logger()
     wikipedia.set_lang('ru')
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
+
+def error(update, context):
+    botl.warning('Update "%s" caused error "%s"', update, context.error)
 
 
 if __name__ == "__main__":
