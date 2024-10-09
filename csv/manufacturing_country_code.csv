@@ -3,11 +3,11 @@ AA-AH;South Africa
 BF-BG;Kenya
 BU;Uganda
 DF-DK;Morocco
-HA-H9;China
-JA-J9;Japan
+H0-HZ;China
+J0-JZ;Japan
 KF-KH;Israel
 KL-KR;South Korea
-LA-L9;China
+L0-LZ;China
 MA-ME;India
 MF-MK;Indonesia
 ML-MR;Thailand
@@ -42,7 +42,7 @@ VS-VW;Spain
 VX-V2;France (formerly Serbia/Yugoslavia)
 V3-V5;Croatia
 V6-V8;Estonia
-WA-W9;Germany (formerly West Germany)
+W0-WZ;Germany (formerly West Germany)
 XA-XC;Bulgaria
 XF-XH;Greece
 XL-XR;The Netherlands
@@ -59,11 +59,11 @@ ZA-ZU;Italy
 ZX-ZZ;Slovenia
 Z3-Z5;Lithuania
 Z6-Z0;Russia
-1A-19;United States
-4A-49;United States
-5A-59;United States
-2A-29;Canada
-3A-39;Mexico
+10-1Z;United States
+40-4Z;United States
+50-5Z;United States
+20-2Z;Canada
+30-3Z;Mexico
 6A-6W;Australia
 7A-7E;New Zealand
 8A-8E;Argentina
