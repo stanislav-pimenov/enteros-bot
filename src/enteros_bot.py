@@ -33,8 +33,7 @@ MORNING_DICT = ['утро', 'утренний', 'утром']
 # conversation states
 QUERY = range(1)
 
-CHUCKS = ['Anton', 'Sasha', 'Stan', 'Ded', 'Ivan', 'Ramil', 'Pasha', 'Grisha', 'Roma', 'Red Master', 'Lesha',
-          'Vladimir', 'Eugene', 'The Geka', 'Yura', 'Nikita']
+CHUCKS = ['Ivan']
 
 def print_user_info(update, context):
     botl.info('chat: %s', update.message.chat)
