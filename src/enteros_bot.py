@@ -155,18 +155,19 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         update.message.chat_id,
         'Пожелай доброго утра блев или выполни /boobs, /rzhu, /ivan, /ivanru или /wiki, если ты кот учёный. Расшифруй VIN код своей тачки с помощью команды /vin <номер>')
 
-async def replace_instagram_links(update, context):
+async def replace_social_media_links(update, context):
     # Regex pattern to match Instagram links
-    pattern = r"https?://(?:www\.)?instagram\.com[^\s]+"
+    link_pattern = r"https?://(?:www\.)?(?:instagram\.com|x\.com)[^\s]+"
     # Get the message text
     message = update.message.text
     # Find all Instagram links in the message
-    instagram_links = re.findall(pattern, message)
-    botl.debug('Found instagram links: %s', instagram_links)
+    links = re.findall(link_pattern, message)
+    botl.debug('Found social network links: %s', links)
     # Replace instagram.com with ddinstagram.com in each link
-    if instagram_links:
-        for link in instagram_links:
+    if links:
+        for link in links:
             modified_link = re.sub(r"instagram\.com", "ddinstagram.com", link)
+            modified_link = re.sub(r"x\.com", "fxtwitter.com", modified_link)
             # Send the modified link back to the chat
             await update.message.reply_text(modified_link)
         return True
@@ -182,7 +183,7 @@ async def get_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
         #     await context.bot.send_message(chat_id=update.message.chat_id,
         #                                    text="Винтовка это праздник, всё летит в пизду!!!",
         #                                    reply_to_message_id=update.message.message_id)
-        found_links = await replace_instagram_links(update, context)
+        found_links = await replace_social_media_links(update, context)
         if not found_links:
             await reply_to_morning(update, context)
 
