@@ -4,6 +4,22 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 import csv
+import re
+
+
+class InvalidVINException(Exception):
+    """Custom exception for invalid VIN numbers."""
+    pass
+
+
+def validate_vin(vin: str):
+    """Validates a VIN number. Raises an exception if invalid."""
+    vin_regex = r'^[A-HJ-NPR-Z0-9]{17}$'
+
+    if not re.match(vin_regex, vin):
+        raise InvalidVINException(f"Invalid VIN: {vin}")
+
+    return True
 
 
 def read_csv_dic(csv_name):
@@ -18,6 +34,7 @@ def read_csv_dic(csv_name):
 
 
 def decode_vin(vin_str):
+    validate_vin(vin_str)
     vin_dict = {}
     vin_dict['manufacturing_continent_code'] = vin_str[:1]
     vin_dict['manufacturing_country_code'] = vin_str[:2]

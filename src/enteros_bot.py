@@ -15,7 +15,7 @@ from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Application, CommandHandler, ConversationHandler, ContextTypes, MessageHandler, filters
 
 from quotas import quota_exceeded
-from vin import decode_vin
+from vin import decode_vin, InvalidVINException
 from setup_logging import *
 
 bot_token = os.getenv('BOT_TOKEN')
@@ -53,10 +53,13 @@ async def handle_send_boobs(update, context):
 
 async def handle_decode_vin(update, context):
     print_user_info(update, context)
-    decoded_vin = decode_vin(context.args[0])
-    await context.bot.send_message(chat_id=update.message.chat_id, text=decoded_vin,
-                                   reply_to_message_id=update.message.message_id)
-
+    try:
+      decoded_vin = decode_vin(context.args[0])
+      await context.bot.send_message(chat_id=update.message.chat_id, text=decoded_vin,
+                                     reply_to_message_id=update.message.message_id)
+    except InvalidVINException as e:
+        await context.bot.send_message(chat_id=update.message.chat_id, text=e,
+                                       reply_to_message_id=update.message.message_id)
 
 MENU_DICT = {
     "Анекдот": 1,
