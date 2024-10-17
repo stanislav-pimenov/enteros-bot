@@ -58,7 +58,7 @@ async def handle_decode_vin(update, context):
       await context.bot.send_message(chat_id=update.message.chat_id, text=decoded_vin,
                                      reply_to_message_id=update.message.message_id)
     except InvalidVINException as e:
-        await context.bot.send_message(chat_id=update.message.chat_id, text=e,
+        await context.bot.send_message(chat_id=update.message.chat_id, text=e.__str__(),
                                        reply_to_message_id=update.message.message_id)
 
 MENU_DICT = {
