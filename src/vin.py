@@ -9,7 +9,13 @@ import re
 
 class InvalidVINException(Exception):
     """Custom exception for invalid VIN numbers."""
-    pass
+    def __init__(self, vin, message="Invalid VIN"):
+        self.vin = vin
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f'{self.message}: {self.vin}'
 
 
 def validate_vin(vin: str):
@@ -17,7 +23,7 @@ def validate_vin(vin: str):
     vin_regex = r'^[A-HJ-NPR-Z0-9]{17}$'
 
     if not re.match(vin_regex, vin):
-        raise InvalidVINException(f"Invalid VIN: {vin}")
+        raise InvalidVINException(vin)
 
     return True
 
