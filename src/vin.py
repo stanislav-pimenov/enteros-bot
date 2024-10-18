@@ -106,12 +106,3 @@ engine_types = {
     'E': 'Electric',
     'H': 'Hybrid'
 }
-
-# if __name__ == '__main__':
-#     manufacturer_code_dict = read_csv_dic('manufacturer_code.csv')
-#     manufacturer_continent_code_dict = read_csv_dic('manufacturing_continent_code.csv')
-#     manufacturer_country_code_dict = read_csv_dic('manufacturing_country_code.csv')
-#     decode_vin('MXHJB81DBPK287172')
-#     print(f'manufacturer_code_dict: {manufacturer_code_dict}')
-#     print(f'manufacturer_continent_code_dict: {manufacturer_continent_code_dict}')
-#     print(f'manufacturer_country_code_dict: {manufacturer_country_code_dict}')
