@@ -1,19 +1,38 @@
-## Enteros Bot
-### Python Libs Used
+# Enteros Bot
+![img](img/qr.jpg)
 
-```commandline
-python-telegram-bot==20.0
-nltk==3.5
-pytest==6.2.2
+## Use Cases
+
+### Morning
+![](img/utro.jpg)
+
+### Instagram
+![](img/instagram.jpg)
+
+### Wiki
+![](img/wiki.jpg)
+
+### Boobs
+![](img/boobs.jpg)
+
+## Python Libs Used
+
+
+```properties
+
+python-telegram-bot==21.6
+nltk==3.9.1
+pytest==8.3.3
 pymorphy2==0.9.1
-schedule==1.0.0
+schedule==1.2.2
 wikipedia==1.4.0
-translators==5.5.5
+translators==5.9.3
 
 ```
 
 For russian language lemminization: [pymorphy2](https://pymorphy2.readthedocs.io/en/stable/_modules/pymorphy2/analyzer.html)
 
-CI/CD 
+### CI/CD 
 
 Github actions is used [deploy.yml](.github/workflows/deploy.yml)
+
