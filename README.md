@@ -23,7 +23,7 @@
 python-telegram-bot==21.6
 nltk==3.9.1
 pytest==8.3.3
-pymorphy2==0.9.1
+pymorphy3==2.0.3
 schedule==1.2.2
 wikipedia==1.4.0
 translators==5.9.3

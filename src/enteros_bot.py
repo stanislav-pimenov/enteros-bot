@@ -3,7 +3,7 @@ import random
 import re
 
 import nltk
-import pymorphy2
+import pymorphy3
 import requests
 import wikipedia
 import translators.server as tss
@@ -28,7 +28,7 @@ nltk.download('punkt_tab')
 stemmer = SnowballStemmer("russian")
 stop_words = stopwords.words("russian")
 # pymorphy2
-morph = pymorphy2.MorphAnalyzer()
+morph = pymorphy3.MorphAnalyzer()
 MORNING_DICT = ['утро', 'утренний', 'утром']
 # conversation states
 QUERY = range(1)
@@ -206,7 +206,7 @@ def is_good_morning_nltk(message):
     return False
 
 
-def prepare_response(obj: pymorphy2.analyzer.Parse):
+def prepare_response(obj: pymorphy3.analyzer.Parse):
     word = obj.word
     return 'хую' + word[1:] + '!'
 
