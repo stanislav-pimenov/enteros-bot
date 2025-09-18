@@ -166,10 +166,10 @@ async def replace_social_media_links(update, context):
     # Find all Instagram links in the message
     links = re.findall(link_pattern, message)
     botl.debug('Found social network links: %s', links)
-    # Replace instagram.com with ddinstagram.com in each link
+    # Replace instagram.com with kkinstagram.com in each link
     if links:
         for link in links:
-            modified_link = re.sub(r"instagram\.com", "ddinstagram.com", link)
+            modified_link = re.sub(r"instagram\.com", "kkinstagram.com", link)
             modified_link = re.sub(r"x\.com", "fxtwitter.com", modified_link)
             # Send the modified link back to the chat
             await update.message.reply_text(modified_link)
